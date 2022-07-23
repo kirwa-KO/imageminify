@@ -5,7 +5,7 @@ Minify images seamlessly in easy way
 ## Install
 
 ```
-$ npm install imageminify
+npm install imageminify
 ```
 
 ## Usage
