@@ -1,11 +1,11 @@
 {
-	"name": "imageminify",
+	"name": "imageminimize",
 	"version": "0.0.1",
 	"description": "Minify images seamlessly in easy way",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/kirwa-KO/imageminify"
+		"url": "https://github.com/kirwa-KO/imageminimize"
 	},
 	"type": "module",
 	"exports": "./index.js",
@@ -23,7 +23,7 @@
 		"compress",
 		"image",
 		"images",
-		"imageminify",
+		"imageminimize",
 		"imagemin",
 		"jpeg",
 		"jpg",

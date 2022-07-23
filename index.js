@@ -41,7 +41,7 @@ const handleFile = async (sourcePath, {destination, plugins = []}) => {
 	return returnValue;
 };
 
-export default async function imageminify(input, {glob = true, ...options} = {}) {
+export default async function imageminimize(input, {glob = true, ...options} = {}) {
 	if (!Array.isArray(input)) {
 		throw new TypeError(`Expected an \`Array\`, got \`${typeof input}\``);
 	}
@@ -66,7 +66,7 @@ export default async function imageminify(input, {glob = true, ...options} = {})
 	return res;
 }
 
-imageminify.buffer = async (input, {plugins = []} = {}) => {
+imageminimize.buffer = async (input, {plugins = []} = {}) => {
 	if (!Buffer.isBuffer(input)) {
 		throw new TypeError(`Expected a \`Buffer\`, got \`${typeof input}\``);
 	}

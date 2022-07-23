@@ -1,21 +1,21 @@
-# imageminify
+# imageminimize
 
 Minify images seamlessly in easy way
 
 ## Install
 
 ```
-npm install imageminify
+npm install imageminimize
 ```
 
 ## Usage
 
 ```js
-import imageminify from 'imageminify';
+import imageminimize from 'imageminimize';
 import imageminJpegtran from 'imagemin-jpegtran';
 import imageminPngquant from 'imagemin-pngquant';
 
-const files = await imageminify(['images/*.{jpg,png}'], {
+const files = await imageminimize(['images/*.{jpg,png}'], {
 	destination: 'build/images',
 	plugins: [
 		imageminJpegtran(),
@@ -31,7 +31,7 @@ console.log(files);
 
 ## API
 
-### imageminify(input, options?)
+### imageminimize(input, options?)
 
 Returns `Promise<object[]>` in the format `{data: Buffer, sourcePath: string, destinationPath: string}`.
 
@@ -64,7 +64,7 @@ Default: `true`
 
 Enable globbing when matching file paths.
 
-### imageminify.buffer(buffer, options?)
+### imageminimize.buffer(buffer, options?)
 
 Returns `Promise<Buffer>`.
 
