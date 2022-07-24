@@ -1,6 +1,6 @@
 {
 	"name": "imageminimize",
-	"version": "0.0.3",
+	"version": "1.0.0",
 	"description": "Minify images seamlessly in easy way",
 	"license": "MIT",
 	"repository": {
@@ -11,9 +11,6 @@
 	"exports": "./index.mjs",
 	"engines": {
 		"node": ">=12"
-	},
-	"scripts": {
-		"test": "xo && ava"
 	},
 	"files": [
 		"index.mjs"
