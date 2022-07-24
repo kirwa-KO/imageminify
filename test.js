@@ -8,13 +8,13 @@ import imageminSvgo from 'imagemin-svgo';
 import isJpg from 'is-jpg';
 import tempy from 'tempy';
 import test from 'ava';
-import imagemin from './index.js';
+import imageminimize from './index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 test('optimize a file', async t => {
 	const buffer = await fsPromises.readFile(path.join(__dirname, 'fixture.jpg'));
-	const files = await imagemin(['fixture.jpg'], {
+	const files = await imageminimize(['fixture.jpg'], {
 		plugins: [imageminJpegtran()],
 	});
 
@@ -25,7 +25,7 @@ test('optimize a file', async t => {
 
 test('optimize a buffer', async t => {
 	const buffer = await fsPromises.readFile(path.join(__dirname, 'fixture.jpg'));
-	const data = await imagemin.buffer(buffer, {
+	const data = await imageminimize.buffer(buffer, {
 		plugins: [imageminJpegtran()],
 	});
 
@@ -34,19 +34,19 @@ test('optimize a buffer', async t => {
 });
 
 test('output error on corrupt images', async t => {
-	await t.throwsAsync(imagemin(['fixture-corrupt.jpg'], {
+	await t.throwsAsync(imageminimize(['fixture-corrupt.jpg'], {
 		plugins: [imageminJpegtran()],
 	}), {message: /Corrupt JPEG data/});
 });
 
 test('throw on wrong input', async t => {
-	await t.throwsAsync(imagemin('foo'), {message: /Expected an `Array`, got `string`/});
-	await t.throwsAsync(imagemin.buffer('foo'), {message: /Expected a `Buffer`, got `string`/});
+	await t.throwsAsync(imageminimize('foo'), {message: /Expected an `Array`, got `string`/});
+	await t.throwsAsync(imageminimize.buffer('foo'), {message: /Expected a `Buffer`, got `string`/});
 });
 
 test('return original file if no plugins are defined', async t => {
 	const buffer = await fsPromises.readFile(path.join(__dirname, 'fixture.jpg'));
-	const files = await imagemin(['fixture.jpg']);
+	const files = await imageminimize(['fixture.jpg']);
 
 	t.is(files[0].destinationPath, undefined);
 	t.deepEqual(files[0].data, buffer);
@@ -55,7 +55,7 @@ test('return original file if no plugins are defined', async t => {
 
 test('return original buffer if no plugins are defined', async t => {
 	const buffer = await fsPromises.readFile(path.join(__dirname, 'fixture.jpg'));
-	const data = await imagemin.buffer(buffer);
+	const data = await imageminimize.buffer(buffer);
 
 	t.deepEqual(data, buffer);
 	t.true(isJpg(data));
@@ -66,7 +66,7 @@ test.failing('return processed buffer even it is a bad optimization', async t =>
 	const buffer = await fsPromises.readFile(path.join(__dirname, 'fixture.svg'));
 	t.false(buffer.includes('http://www.w3.org/2000/svg'));
 
-	const data = await imagemin.buffer(buffer, {
+	const data = await imageminimize.buffer(buffer, {
 		plugins: [
 			imageminSvgo({
 				plugins: [{
@@ -92,7 +92,7 @@ test('output at the specified location', async t => {
 	await fsPromises.mkdir(temporary, {recursive: true});
 	await fsPromises.writeFile(path.join(temporary, 'fixture.jpg'), buffer);
 
-	const files = await imagemin(['fixture.jpg', `${temporary}/*.jpg`], {
+	const files = await imageminimize(['fixture.jpg', `${temporary}/*.jpg`], {
 		destination: destinationTemporary,
 		plugins: [imageminJpegtran()],
 	});
@@ -113,7 +113,7 @@ test('output at the specified location when input paths contain Windows path del
 
 	const fileNameWithWindowsPathDelimiter = `${temporary}\\*.jpg`;
 
-	const files = await imagemin([fileNameWithWindowsPathDelimiter], {
+	const files = await imageminimize([fileNameWithWindowsPathDelimiter], {
 		destination: destinationTemporary,
 		plugins: [imageminJpegtran()],
 	});
@@ -125,7 +125,7 @@ test('output at the specified location when input paths contain Windows path del
 
 test('set webp ext', async t => {
 	const temporary = tempy.file();
-	const files = await imagemin(['fixture.jpg'], {
+	const files = await imageminimize(['fixture.jpg'], {
 		destination: temporary,
 		plugins: [imageminWebp()],
 	});
@@ -136,7 +136,7 @@ test('set webp ext', async t => {
 
 test('set svg ext', async t => {
 	const temporary = tempy.file();
-	const files = await imagemin(['fixture.svg'], {
+	const files = await imageminimize(['fixture.svg'], {
 		destination: temporary,
 		plugins: [imageminSvgo()],
 	});
@@ -155,7 +155,7 @@ test('ignores junk files', async t => {
 	await fsPromises.writeFile(path.join(temporary, 'Thumbs.db'), '');
 	await fsPromises.writeFile(path.join(temporary, 'fixture.jpg'), buffer);
 
-	await t.notThrowsAsync(imagemin([`${temporary}/*`], {
+	await t.notThrowsAsync(imageminimize([`${temporary}/*`], {
 		destination: destinationTemporary,
 		plugins: [imageminJpegtran()],
 	}));
@@ -168,7 +168,7 @@ test('ignores junk files', async t => {
 });
 
 test('glob option', async t => {
-	const files = await imagemin(['fixture.jpg'], {
+	const files = await imageminimize(['fixture.jpg'], {
 		glob: false,
 		plugins: [imageminJpegtran()],
 	});
