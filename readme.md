@@ -20,6 +20,7 @@ import imageminJpegtran from 'imagemin-jpegtran';
 import imageminPngquant from 'imagemin-pngquant';
 
 const files = await imageminimize(['images/*.{jpg,png}'], {
+	excludeFiles: ["logo192.png", "logo512.png", "thumbnail.jpg"],
 	destination: 'build/images',
 	plugins: [
 		imageminJpegtran(),

@@ -50,8 +50,9 @@ const handleFile = async (sourcePath, { destination, plugins = [] }) => {
 
 export default async function imageminimize(
 	input,
-	{ glob = true, ...options } = {}
+	{ glob = true, excludeFiles, ...options } = {}
 ) {
+
 	if (!Array.isArray(input)) {
 		throw new TypeError(`Expected an \`Array\`, got \`${typeof input}\``);
 	}
@@ -67,7 +68,12 @@ export default async function imageminimize(
 		if (!junk.not(path.basename(file))) {
 			continue;
 		}
+
 		try {
+			// console.log(file);
+			if (isFiletoExclude(file, excludeFiles)) {
+				continue;
+			}
 			result.push(await handleFile(file, options));
 		} catch (error) {
 			error.message = `Error occurred when handling file: ${input}\n\n${error.stack}`;
@@ -89,3 +95,10 @@ imageminimize.buffer = async (input, { plugins = [] } = {}) => {
 
 	return pPipe(...plugins)(input);
 };
+
+const isFiletoExclude = (file, excludeFiles) => {
+	if (!excludeFiles) {
+		return false;
+	}
+	return excludeFiles.some((excludeFile) => file.includes(excludeFile));
+}
